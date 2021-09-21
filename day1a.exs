@@ -1,15 +1,25 @@
 {:ok, contents} = File.read("day1input.txt")
-split_contents = contents \
+input = contents \
   |> String.split("\n", trim: true) \
   |> Enum.map(&String.to_integer/1)
 
+
 defmodule Advent1 do
-  def calc([head | tail]) do
+  def attempt_one([head | tail]) do
     compared_value = Enum.reduce_while(tail, 0, fn x, _ ->
       if x + head == 2020, do: {:halt, -x}, else: {:cont, x}
     end)
     if compared_value > 0, do: Advent1.calc(tail), else: head * -compared_value
   end
+
+  def attempt_two(input) do
+    input
+      |> Enum.map(&(2020 - &1))
+      |> MapSet.new()
+      |> MapSet.intersection(MapSet.new(input))
+      |> Enum.product()
+  end
 end
 
-Advent1.calc(split_contents)
+Advent1.attempt_one(input)
+Advent1.attempt_two(input)
