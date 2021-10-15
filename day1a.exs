@@ -4,7 +4,7 @@ input = contents \
   |> Enum.map(&String.to_integer/1)
 
 
-defmodule Advent1 do
+defmodule Advent1a do
   def attempt_one([head | tail]) do
     compared_value = Enum.reduce_while(tail, 0, fn x, _ ->
       if x + head == 2020, do: {:halt, -x}, else: {:cont, x}
@@ -21,5 +21,5 @@ defmodule Advent1 do
   end
 end
 
-Advent1.attempt_one(input)
-Advent1.attempt_two(input)
+Advent1a.attempt_one(input)
+Advent1a.attempt_two(input)
