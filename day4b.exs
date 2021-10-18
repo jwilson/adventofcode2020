@@ -3,7 +3,7 @@ input = contents \
   |> String.split("\n")
 
 
-defmodule Advent4a do
+defmodule Advent4b do
   def go(input) do
     state = process_data_line(%{current_chunk: [], chunks: [], current_passport: %{}, passports: [], semi_valid_passports: [], valid_passports: []}, input)
     |> process_chunk_data()
@@ -143,4 +143,4 @@ defmodule Advent4a do
   end
 end
 
-Advent4a.go(input)
+Advent4b.go(input)
