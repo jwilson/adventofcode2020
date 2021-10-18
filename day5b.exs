@@ -4,11 +4,10 @@ input = contents \
 
 defmodule Advent5a do
   def go(input) do
-    results = process_data_line(%{rows: [], mine: {0,0,0}}, input)
+    process_data_line(%{rows: [], mine: {0,0,0}}, input)
     |> sort_data()
     |> find_missing_seat()
-
-    IO.puts(elem(results.mine, 2))
+    |> elem(2)
   end
 
   defp process_data_line(state, []), do: state
@@ -28,7 +27,7 @@ defmodule Advent5a do
   defp find_missing_seat(state, [head | tail]) do
     b = elem(hd(tail), 2)
     case b - 1 == elem(head, 2) && b + 1 == elem(hd(tl(tail)), 2) do
-      false -> %{state | mine: {0, 0, b + 1}}
+      false -> {0, 0, b + 1}
       true -> find_missing_seat(state, tail)
     end
   end
