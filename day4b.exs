@@ -42,31 +42,31 @@ defmodule Advent4b do
 
   defp process_chunk_parts(state, []), do: state
   defp process_chunk_parts(state, [head | tail]) do
-    new_state = case String.split(head, ":") do
+     case String.split(head, ":") do
       [key, value] -> %{state | current_passport: Map.put_new(state.current_passport, String.to_atom(key), value)}
       _ -> state
     end
-    process_chunk_parts(new_state, tail)
+    |> process_chunk_parts(tail)
   end
 
   defp validate_passports_fields(state), do: validate_passports_fields(state, state.passports)
   defp validate_passports_fields(state, []), do: state
   defp validate_passports_fields(state, [head | tail]) do
-    new_state = case head do
+    case head do
       %{byr: _byr, iyr: _iyr, eyr: _eyr, hgt: _hgt, hcl: _hcl, ecl: _ecl, pid: _pid} -> %{state | semi_valid_passports: [head | state.semi_valid_passports]}
       _ -> state
     end
-    validate_passports_fields(new_state, tail)
+    |> validate_passports_fields(tail)
   end
 
   defp validate_passports_values(state), do: validate_passports_values(state, state.semi_valid_passports)
   defp validate_passports_values(state, []), do: state
   defp validate_passports_values(state, [head | tail]) do
-    new_state = case validate_values(head).valid do
+    case validate_values(head).valid do
       true -> %{state | valid_passports: [head | state.valid_passports]}
       false -> state
     end
-    validate_passports_values(new_state, tail)
+    |> validate_passports_values(tail)
   end
 
   defp validate_values(passport) do
