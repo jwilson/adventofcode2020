@@ -18,9 +18,7 @@ defmodule Advent5a do
     process_data_line(%{state | rows: [{int_row, int_col, int_row * 8 + int_col} | state.rows]}, tail)
   end
 
-  defp sort_data(state) do
-    %{state | rows: Enum.sort(state.rows, &(elem(&1, 2) < elem(&2, 2)))}
-  end
+  defp sort_data(state), do: %{state | rows: Enum.sort(state.rows, &(elem(&1, 2) < elem(&2, 2)))}
 
   defp find_missing_seat(state, []), do: state
   defp find_missing_seat(state), do: find_missing_seat(state, state.rows)
