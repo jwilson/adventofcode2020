@@ -60,9 +60,7 @@ defmodule Advent4a do
   defp validate_passports_values(state), do: validate_passports_values(state, state.semi_valid_passports)
   defp validate_passports_values(state, []), do: state
   defp validate_passports_values(state, [head | tail]) do
-    value_state = validate_values(head)
-    IO.puts(inspect(value_state))
-    new_state = case value_state.valid do
+    new_state = case validate_values(head).valid do
       true -> %{state | valid_passports: [head | state.valid_passports]}
       false -> state
     end
