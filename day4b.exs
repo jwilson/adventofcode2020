@@ -13,6 +13,7 @@ defmodule Advent4b do
   end
 
   defp between(value, min, max), do: value >= min and value <= max
+  defp length(value, len), do: String.length(value) == len
 
   defp process_data_line(state, []), do: %{state | current_chunk: [], chunks: [state.current_chunk | state.chunks]}
   defp process_data_line(state, [head | tail]) do
@@ -81,7 +82,7 @@ defmodule Advent4b do
 
   defp validate_byr(state, byr) do
     case Integer.parse(byr) do
-      {value, _} -> %{state | valid: String.length(byr) == 4 and between(value, 1920, 2002)}
+      {value, _} -> %{state | valid: length(byr, 4) and between(value, 1920, 2002)}
       :error -> %{state | valid: false}
     end
   end
@@ -89,7 +90,7 @@ defmodule Advent4b do
   defp validate_iyr(state, _) when state.valid == false, do: state
   defp validate_iyr(state, iyr) do
     case Integer.parse(iyr) do
-      {value, _} -> %{state | valid: String.length(iyr) == 4 and between(value, 2010, 2020)}
+      {value, _} -> %{state | valid: length(iyr, 4) and between(value, 2010, 2020)}
       :error -> %{state | valid: false}
     end
   end
@@ -97,7 +98,7 @@ defmodule Advent4b do
   defp validate_eyr(state, _) when state.valid == false, do: state
   defp validate_eyr(state, eyr) do
     case Integer.parse(eyr) do
-      {value, _} -> %{state | valid: String.length(eyr) == 4 and between(value, 2020, 2030)}
+      {value, _} -> %{state | valid: length(eyr, 4) and between(value, 2020, 2030)}
       :error -> %{state | valid: false}
     end
   end
