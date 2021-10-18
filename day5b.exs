@@ -4,9 +4,11 @@ input = contents \
 
 defmodule Advent5a do
   def go(input) do
-    process_data_line(%{rows: []}, input)
+    results = process_data_line(%{rows: [], mine: {0,0,0}}, input)
     |> sort_data()
-    |> elem(2)
+    |> find_missing_seat()
+
+    IO.puts(elem(results.mine, 2))
   end
 
   defp process_data_line(state, []), do: state
@@ -18,7 +20,17 @@ defmodule Advent5a do
   end
 
   defp sort_data(state) do
-    Enum.reduce(state.rows, {0, 0, 0}, &(if elem(&1, 2) > elem(&2, 2), do: &1, else: &2))
+    %{state | rows: Enum.sort(state.rows, &(elem(&1, 2) < elem(&2, 2)))}
+  end
+
+  defp find_missing_seat(state, []), do: state
+  defp find_missing_seat(state), do: find_missing_seat(state, state.rows)
+  defp find_missing_seat(state, [head | tail]) do
+    b = elem(hd(tail), 2)
+    case b - 1 == elem(head, 2) && b + 1 == elem(hd(tl(tail)), 2) do
+      false -> %{state | mine: {0, 0, b + 1}}
+      true -> find_missing_seat(state, tail)
+    end
   end
 end
 
