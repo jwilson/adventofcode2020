@@ -86,7 +86,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_iyr(state, _) when state.valid != true, do: state
+  defp validate_iyr(state, _) when state.valid == false, do: state
   defp validate_iyr(state, iyr) do
     case Integer.parse(iyr) do
       {value, _} -> %{state | valid: String.length(iyr) == 4 and between(value, 2010, 2020)}
@@ -94,7 +94,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_eyr(state, _) when state.valid != true, do: state
+  defp validate_eyr(state, _) when state.valid == false, do: state
   defp validate_eyr(state, eyr) do
     case Integer.parse(eyr) do
       {value, _} -> %{state | valid: String.length(eyr) == 4 and between(value, 2020, 2030)}
@@ -102,7 +102,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_hgt(state, _) when state.valid != true, do: state
+  defp validate_hgt(state, _) when state.valid == false, do: state
   defp validate_hgt(state, hgt) do
     case String.split_at(hgt, -2) do
       {height, "cm"} -> %{state | valid: can_parse_height(height) and between(String.to_integer(height), 150, 193)}
@@ -118,7 +118,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_hcl(state, _) when state.valid != true, do: state
+  defp validate_hcl(state, _) when state.valid == false, do: state
   defp validate_hcl(state, hcl) do
     case String.match?(hcl, ~r/^#[0-9,a-f]{6}$/) do
       true -> %{state | valid: true}
@@ -126,7 +126,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_ecl(state, _) when state.valid != true, do: state
+  defp validate_ecl(state, _) when state.valid == false, do: state
   defp validate_ecl(state, ecl) do
     case ecl in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"] do
       true -> %{state | valid: true}
@@ -134,7 +134,7 @@ defmodule Advent4b do
     end
   end
 
-  defp validate_pid(state, _) when state.valid != true, do: state
+  defp validate_pid(state, _) when state.valid == false, do: state
   defp validate_pid(state, pid) do
     case String.match?(pid, ~r/^\d{9}$/) do
       true -> %{state | valid: true}
