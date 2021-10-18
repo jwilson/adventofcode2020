@@ -12,6 +12,8 @@ defmodule Advent4a do
     IO.puts(length(state.valid_passports))
   end
 
+  defp between(value, min, max), do: value >= min and value <= max
+
   defp process_data_line(state, []), do: %{state | current_chunk: [], chunks: [state.current_chunk | state.chunks]}
   defp process_data_line(state, [head | tail]) do
     append_chunk(state, head)
@@ -79,7 +81,7 @@ defmodule Advent4a do
 
   defp validate_byr(state, byr) do
     case Integer.parse(byr) do
-      {value, _} -> %{state | valid: String.length(byr) == 4 and value >= 1920 && value <= 2002}
+      {value, _} -> %{state | valid: String.length(byr) == 4 and between(value, 1920, 2002)}
       :error -> %{state | valid: false}
     end
   end
@@ -87,7 +89,7 @@ defmodule Advent4a do
   defp validate_iyr(state, _) when state.valid != true, do: state
   defp validate_iyr(state, iyr) do
     case Integer.parse(iyr) do
-      {value, _} -> %{state | valid: String.length(iyr) == 4 and value >= 2010 && value <= 2020}
+      {value, _} -> %{state | valid: String.length(iyr) == 4 and between(value, 2010, 2020)}
       :error -> %{state | valid: false}
     end
   end
@@ -95,7 +97,7 @@ defmodule Advent4a do
   defp validate_eyr(state, _) when state.valid != true, do: state
   defp validate_eyr(state, eyr) do
     case Integer.parse(eyr) do
-      {value, _} -> %{state | valid: String.length(eyr) == 4 and value >= 2020 && value <= 2030}
+      {value, _} -> %{state | valid: String.length(eyr) == 4 and between(value, 2020, 2030)}
       :error -> %{state | valid: false}
     end
   end
@@ -103,8 +105,8 @@ defmodule Advent4a do
   defp validate_hgt(state, _) when state.valid != true, do: state
   defp validate_hgt(state, hgt) do
     case String.split_at(hgt, -2) do
-      {height, "cm"} -> %{state | valid: can_parse_height(height) and String.to_integer(height) >= 150 && String.to_integer(height) <= 193}
-      {height, "in"} -> %{state | valid: can_parse_height(height) and String.to_integer(height) >= 59 && String.to_integer(height) <= 76}
+      {height, "cm"} -> %{state | valid: can_parse_height(height) and between(String.to_integer(height), 150, 193)}
+      {height, "in"} -> %{state | valid: can_parse_height(height) and between(String.to_integer(height), 59, 76)}
       _ -> %{state | valid: false}
     end
   end
